@@ -9,7 +9,11 @@
 
 принимает параметр page в адресную строку, например ad_list/?page=2
 
+принимает параметр ordering, к нему значения : price и creation_date; например:
 
+?ordering=price
+
+?ordering=-creation_date
 
 
 

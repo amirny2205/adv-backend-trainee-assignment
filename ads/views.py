@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.shortcuts import render
-from rest_framework import status
+from rest_framework import status, generics, filters
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -14,23 +14,29 @@ class BasicPagination(PageNumberPagination):
 
 
 
-class AdList(APIView):
+# class AdList(APIView):
+#     pagination_class = BasicPagination
+#     serializer_class = AdSerializer
+#     def get(self, request, format=None, *args, **kwargs):
+#         objs = Ad.objects.all()
+#
+#         self._paginator = BasicPagination()
+#         self._paginator.paginate_queryset(objs, request, view=self)
+#         page = self._paginator.paginate_queryset(objs, request, view=self)
+#         if page is not None:
+#             serializer = self._paginator.get_paginated_response(self.serializer_class(page, many=True).data)
+#         else:
+#             serializer = self.serializer_class(objs, many=True)
+#
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class AdList(generics.ListAPIView):
+    queryset = Ad.objects.all()
     pagination_class = BasicPagination
     serializer_class = AdSerializer
-    def get(self, request, format=None, *args, **kwargs):
-        objs = Ad.objects.all()
-
-        self._paginator = BasicPagination()
-        self._paginator.paginate_queryset(objs, request, view=self)
-        page = self._paginator.paginate_queryset(objs, request, view=self)
-        if page is not None:
-            serializer = self._paginator.get_paginated_response(self.serializer_class(page, many=True).data)
-        else:
-            serializer = self.serializer_class(objs, many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['price', 'creation_date']
 
 
 class AdDetail(APIView):
