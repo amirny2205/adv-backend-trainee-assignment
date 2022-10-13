@@ -1,3 +1,5 @@
+import json
+
 from django.conf import settings
 from django.shortcuts import render
 from rest_framework import status, generics, filters
@@ -13,30 +15,13 @@ class BasicPagination(PageNumberPagination):
     page_size_query_param = 'limit'
 
 
-
-# class AdList(APIView):
-#     pagination_class = BasicPagination
-#     serializer_class = AdSerializer
-#     def get(self, request, format=None, *args, **kwargs):
-#         objs = Ad.objects.all()
-#
-#         self._paginator = BasicPagination()
-#         self._paginator.paginate_queryset(objs, request, view=self)
-#         page = self._paginator.paginate_queryset(objs, request, view=self)
-#         if page is not None:
-#             serializer = self._paginator.get_paginated_response(self.serializer_class(page, many=True).data)
-#         else:
-#             serializer = self.serializer_class(objs, many=True)
-#
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 class AdList(generics.ListAPIView):
     queryset = Ad.objects.all()
     pagination_class = BasicPagination
     serializer_class = AdSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['price', 'creation_date']
+
 
 
 class AdDetail(APIView):
@@ -47,11 +32,10 @@ class AdDetail(APIView):
 
 
 
-class AdCreate(APIView):
-    def post(self, request):
-        serializer = AdSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+class AdCreate(generics.CreateAPIView):
+    queryset = Ad.objects.all()
+    serializer_class = AdSerializer
+    def perform_create(self, serializer):
+        request = serializer.context['request']
+        main_photo = json.loads(request.data['photos'])[0]
+        serializer.save(main_photo=main_photo)

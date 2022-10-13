@@ -24,6 +24,7 @@ class AdSerializer(serializers.ModelSerializer):
     photos = serializers.JSONField(validators=[photos_restriction])
 
 
+
     class Meta:
         model = Ad
         fields = '__all__'
