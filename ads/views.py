@@ -1,22 +1,36 @@
+from django.conf import settings
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
-
 from rest_framework.views import APIView
-
 from ads.models import Ad
 from ads.serializers import AdSerializer
+from rest_framework.pagination import PageNumberPagination
 
 
-# Create your views here.
+class BasicPagination(PageNumberPagination):
+    page_size_query_param = 'limit'
+
 
 
 class AdList(APIView):
-    def get(self, request):
-        ads = Ad.objects.all()
-        serializer = AdSerializer(ads, many=True)
-        return Response(serializer.data)
+    pagination_class = BasicPagination
+    serializer_class = AdSerializer
+    def get(self, request, format=None, *args, **kwargs):
+        objs = Ad.objects.all()
+
+        self._paginator = BasicPagination()
+        self._paginator.paginate_queryset(objs, request, view=self)
+        page = self._paginator.paginate_queryset(objs, request, view=self)
+        if page is not None:
+            serializer = self._paginator.get_paginated_response(self.serializer_class(page, many=True).data)
+        else:
+            serializer = self.serializer_class(objs, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 
 
 class AdDetail(APIView):
@@ -24,6 +38,7 @@ class AdDetail(APIView):
         ad = get_object_or_404(Ad.objects.all(), id=pk)
         serializer = AdSerializer(ad)
         return Response(serializer.data)
+
 
 
 class AdCreate(APIView):
