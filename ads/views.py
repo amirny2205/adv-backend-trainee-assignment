@@ -35,7 +35,7 @@ class AdDetail(APIView):
 class AdCreate(generics.CreateAPIView):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
-    def perform_create(self, serializer):
-        request = serializer.context['request']
-        main_photo = json.loads(request.data['photos'])[0]
-        serializer.save(main_photo=main_photo)
+    # def perform_create(self, serializer):
+    #     request = serializer.context['request']
+    #     main_photo = json.loads(request.data['photos'])[0]
+    #     serializer.save(main_photo=main_photo)

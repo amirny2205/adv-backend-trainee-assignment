@@ -23,8 +23,13 @@ class AdSerializer(serializers.ModelSerializer):
     description = serializers.CharField(validators=[desc_restriction])
     photos = serializers.JSONField(validators=[photos_restriction])
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['main_photo'] = instance.photos[0] if len(instance.photos) > 0 else None
+        return representation
 
 
     class Meta:
         model = Ad
         fields = '__all__'
+
