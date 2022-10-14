@@ -15,7 +15,8 @@
 
 ?ordering=-creation_date
 
-
+принимает параметр fields, в него можно прописать значения description и\или photos:
+?fields=description,photos
 
 ### ad_detail/(id)/ 
 выдаёт конкретное объявление

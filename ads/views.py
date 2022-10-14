@@ -15,7 +15,9 @@ class BasicPagination(PageNumberPagination):
     page_size_query_param = 'limit'
 
 
+
 class AdList(generics.ListAPIView):
+
     queryset = Ad.objects.all()
     pagination_class = BasicPagination
     serializer_class = AdSerializer
@@ -24,18 +26,31 @@ class AdList(generics.ListAPIView):
 
 
 
-class AdDetail(APIView):
-    def get(self, request, pk):
-        ad = get_object_or_404(Ad.objects.all(), id=pk)
-        serializer = AdSerializer(ad)
-        return Response(serializer.data)
+
+class AdDetail(generics.RetrieveAPIView):
+
+    queryset = Ad.objects.all()
+    serializer_class = AdSerializer
+
 
 
 
 class AdCreate(generics.CreateAPIView):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        print(serializer.data)
+        return Response(serializer.data['id'], status=status.HTTP_201_CREATED, headers=headers)
+
     # def perform_create(self, serializer):
+    #     print('using local perform_create')
     #     request = serializer.context['request']
-    #     main_photo = json.loads(request.data['photos'])[0]
-    #     serializer.save(main_photo=main_photo)
+    #     if 'photos' in request.data and len(request.data['photos'])>0:
+    #         main_photo = request.data['photos'][0]
+    #         serializer.save(main_photo=main_photo)
+    #     serializer.save()

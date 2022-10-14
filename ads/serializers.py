@@ -20,13 +20,32 @@ def photos_restriction(photos):
 
 class AdSerializer(serializers.ModelSerializer):
     title = serializers.CharField(validators=[title_restriction])
-    description = serializers.CharField(validators=[desc_restriction])
-    photos = serializers.JSONField(validators=[photos_restriction])
+    description = serializers.CharField(validators=[desc_restriction] , required=False)
+    photos = serializers.JSONField(validators=[photos_restriction], required=False)
+    main_photo = serializers.CharField(max_length=200, required=False)
+
+    def __init__(self, *args, **kwargs):
+
+        # Instantiate the superclass normally
+        super(AdSerializer, self).__init__(*args, **kwargs)
+        if self.context['request'].method in ('GET'):
+            fields = self.context['request'].query_params.get('fields')
+            if fields:
+                fields = fields.split(',') + ['title','main_photo','price']
+            else:
+                fields = ['title','main_photo','price']
+                # Drop any fields that are not specified in the `fields` argument.
+            allowed = set(fields)
+            existing = set(self.fields.keys())
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['main_photo'] = instance.photos[0] if len(instance.photos) > 0 else None
+        if instance.photos:
+            representation['main_photo'] = instance.photos[0] if len(instance.photos) > 0 else None
         return representation
+
 
 
     class Meta:
