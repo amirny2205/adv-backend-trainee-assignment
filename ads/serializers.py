@@ -3,15 +3,17 @@ from rest_framework import serializers
 from ads.models import Ad
 
 
+def title_restriction(title):
+    if len(title) > 200:
+        raise serializers.ValidationError('description should be no more than 1000 letters')
+    return title
+
+
 def desc_restriction(desc):
-    if len(desc)> 1000:
+    if len(desc) > 1000:
         raise serializers.ValidationError('description should be no more than 1000 letters')
     return desc
 
-def title_restriction(title):
-    if len(title)> 200:
-        raise serializers.ValidationError('description should be no more than 1000 letters')
-    return title
 
 def photos_restriction(photos):
     if len(photos)>3:
