@@ -30,6 +30,8 @@ class AdSerializer(serializers.ModelSerializer):
 
         # Instantiate the superclass normally
         super(AdSerializer, self).__init__(*args, **kwargs)
+
+        # fetch or set fields to default
         if self.context['request'].method in ('GET'):
             fields = self.context['request'].query_params.get('fields')
             if fields:
@@ -41,6 +43,15 @@ class AdSerializer(serializers.ModelSerializer):
             existing = set(self.fields.keys())
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
+
+        # set default filtration by id 
+        if self.context['request'].method in ('GET'):
+            order = self.context['request'].query_params.get('order')
+            print('flag A')
+            print(self.order)
+            if not order:
+                self.order = ['id']
+
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
