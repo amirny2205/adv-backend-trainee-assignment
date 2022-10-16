@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'adv_backend_trainee_assignment.wsgi.application'
 DATABASES={
    'default':{
       'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME':'adb_backend_trainee_assignment',
+      'NAME':'adv_backend_trainee_assignment',
       'USER':'postgres',
       'PASSWORD':'q',
       'HOST':'localhost',

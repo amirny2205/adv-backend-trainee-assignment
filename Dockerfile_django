@@ -1,0 +1,13 @@
+FROM debian:latest
+
+RUN cd ~ && \
+    apt-get update && \
+    apt-get -y install git python3 python3-pip python3-venv build-essential libssl-dev libffi-dev python-dev libpq-dev &&\ 
+    git clone https://github.com/amirny2205/adv-backend-trainee-assignment && \
+    cd adv-backend-trainee-assignment && \
+    pip3 install -r requirements.txt
+
+    
+
+EXPOSE 4000
+    
