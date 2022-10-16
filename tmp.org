@@ -1,1 +1,6 @@
 docker run -dit --name postgres_01 -e POSTGRES_PASSWORD=q --ip 172.17.0.5 postgres
+
+
+    python manage.py makemigrations && \
+    python manage.py migrate
+должны запуститься после базы

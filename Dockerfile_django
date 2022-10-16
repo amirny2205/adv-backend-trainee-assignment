@@ -6,8 +6,7 @@ RUN cd ~ && \
     git clone https://github.com/amirny2205/adv-backend-trainee-assignment && \
     cd adv-backend-trainee-assignment && \
     pip3 install -r requirements.txt && \
-    python manage.py makemigrations && \
-    python manage.py migrate
+    cp .env_example .env && \
 
     
 
