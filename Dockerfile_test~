@@ -1,0 +1,3 @@
+FROM python:slim
+
+WORKDIR /root/adv-backend-trainee-assignment
