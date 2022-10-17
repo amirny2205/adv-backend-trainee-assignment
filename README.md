@@ -1,5 +1,6 @@
 # adv-backend-trainee-assignment
 выполнение вот этого тестового задания : https://github.com/avito-tech/adv-backend-trainee-assignment
+
 запуск осуществляется просто : docker-compose up
 
 
