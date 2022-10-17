@@ -2,3 +2,11 @@
 .env
 tmp.org
 tmp.org~
+#Dockerfile_postgres#
+.#Dockerfile_postgres
+.coverage
+.env_example
+Dockerfile_django~
+Dockerfile_postgres~
+Dockerfile_test~
+docker-compose.yml~
