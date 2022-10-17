@@ -46,6 +46,7 @@ class AdSerializer(serializers.ModelSerializer):
 
         # set default filtration by id 
         if self.context['request'].method in ('GET'):
+            print(dir(self))
             order = self.context['request'].query_params.get('order')
             if not order:
                 self.order = ['id']
