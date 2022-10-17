@@ -1,8 +1,0 @@
-FROM postgres:latest
-
-
-RUN su postgres && \
-    createdb adv_backend_trainee_assignment
-
-
-EXPOSE 5432

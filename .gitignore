@@ -10,3 +10,8 @@ Dockerfile_django~
 Dockerfile_postgres~
 Dockerfile_test~
 docker-compose.yml~
+.idea
+env
+"#Dockerfile_postgres#"
+.#Dockerfile_postgres
+
