@@ -18,7 +18,7 @@ class AdList(generics.ListAPIView):
     serializer_class = AdSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['price', 'creation_date', 'id']
-
+    ordering = ['id']
 
 class AdDetail(generics.RetrieveAPIView):
     """Returns single ad"""

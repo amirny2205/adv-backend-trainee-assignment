@@ -44,12 +44,6 @@ class AdSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
-        # set default filtration by id 
-        if self.context['request'].method in ('GET'):
-            print(dir(self))
-            order = self.context['request'].query_params.get('order')
-            if not order:
-                self.order = ['id']
 
     # TODO set default ordering to id
     # def to_representation(self, instance):
