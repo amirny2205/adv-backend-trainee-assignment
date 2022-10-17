@@ -11,7 +11,8 @@ services:
       - 8000:8000
     working_dir: /root/adv-backend-trainee-assignment
     env_file: .env_dev
-
+    depends_on:
+      - abta_postgres
   abta_postgres:
     image: postgres
     environment:
