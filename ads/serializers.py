@@ -45,12 +45,6 @@ class AdSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
-    # TODO set default ordering to id
-    # def to_representation(self, instance):
-    #     representation = super().to_representation(instance)
-    #     if instance.photos:
-    #         representation['main_photo'] = instance.photos[0] if len(instance.photos) > 0 else None
-    #     return representation
 
 
 
