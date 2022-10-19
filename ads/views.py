@@ -20,6 +20,7 @@ class AdList(generics.ListAPIView):
     ordering_fields = ['price', 'creation_date', 'id']
     ordering = ['id']
 
+
 class AdDetail(generics.RetrieveAPIView):
     """Returns single ad"""
 

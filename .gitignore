@@ -16,7 +16,7 @@ docker-compose.yml~
 env
 "#Dockerfile_postgres#"
 .#Dockerfile_postgres
-
+migrations
 
 
 
