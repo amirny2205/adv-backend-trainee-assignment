@@ -45,6 +45,12 @@ class AdSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.photos:
+            representation['main_photo'] = instance.photos[0] if len(instance.photos) > 0 else None
+        return representation
+
     class Meta:
         model = Ad
         fields = '__all__'

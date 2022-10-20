@@ -25,7 +25,8 @@ class AdTests(APITestCase):
 
     def test_main_photo(self):
         response = client.get('/ad_detail/' + str(self.obj.id) + '/')
-        self.assertEqual(response.data['main_photo'], 'one')
+        print(response.data)
+        self.assertContains(response, 'main_photo')
 
     def test_fields(self):
         response = client.get('/ad_detail/' + str(self.obj.id) + '/?fields=photos,description')
